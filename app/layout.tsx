@@ -8,6 +8,7 @@ import { mona } from '@/providers/fonts';
 import { GSAPProvider } from '@/providers/gsap-provider';
 import { QueryProvider } from '@/providers/query-provider';
 import LenisSmoothScroll from '@/components/layout-components/lenis-smooth-scroll';
+import Navbar from '@/components/layout-components/navbar';
 
 export const metadata: Metadata = {
   title: 'SlopScore.ai | Practice',
@@ -27,6 +28,7 @@ export default function LandingLayout({
         <GSAPProvider>
           <LenisSmoothScroll>
             <QueryProvider>
+              <Navbar />
               {children}
               <Toaster expand />
             </QueryProvider>
