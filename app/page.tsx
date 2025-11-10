@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const RootPage = () => {
-  return <div className=""></div>;
+  return <div className="">{/* <TestCOmp /> */}</div>;
 };
 
 export default RootPage;
