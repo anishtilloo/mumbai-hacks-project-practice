@@ -25,6 +25,7 @@ export default defineConfig([
     rules: {
       'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-vars': ['warn', { 'vars': 'all', 'varsIgnorePattern': '^_', 'args': 'after-used', 'argsIgnorePattern': '^_' }],
       ...nextPlugin.configs.recommended.rules,
     },
   },

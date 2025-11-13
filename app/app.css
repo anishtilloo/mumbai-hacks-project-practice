@@ -6,6 +6,11 @@
   --font-sans: var(--font-geist-sans);
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 @layer utilities {
   .page-px {
     @apply px-10;

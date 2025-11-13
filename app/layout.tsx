@@ -8,7 +8,7 @@ import { mona } from '@/providers/fonts';
 import { GSAPProvider } from '@/providers/gsap-provider';
 import { QueryProvider } from '@/providers/query-provider';
 import LenisSmoothScroll from '@/components/layout-components/lenis-smooth-scroll';
-import Navbar from '@/components/layout-components/navbar';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'SlopScore.ai | Practice',
@@ -23,12 +23,13 @@ export default function LandingLayout({
   return (
     <html lang="en" className="hide-scrollbar">
       <body
-        className={`${mona.variable} mx-auto max-w-[1920px] bg-black selection:bg-white selection:text-black`}
+        className={cn(
+          `${mona.variable} mx-auto max-w-[1920px] bg-black selection:bg-white selection:text-black`
+        )}
       >
         <GSAPProvider>
           <LenisSmoothScroll>
             <QueryProvider>
-              <Navbar />
               {children}
               <Toaster expand />
             </QueryProvider>
