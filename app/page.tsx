@@ -18,6 +18,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { formSchema } from '@/schemas';
+import Marquee from '@/components/animating-wrappers/text-marquee';
+import Link from 'next/link';
 
 const RootPage = () => {
   const [transcript, setTranscript] = useState('');
@@ -64,18 +66,37 @@ const RootPage = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col justify-between bg-black px-16 py-10">
-      <div className="flex w-full justify-between">
-        <p className="font-mona text-md font-semibold text-white">Slopscore.ai</p>
-        <p className="font-mona text-md font-semibold text-white/50">Testing phase</p>
+    <div className="bg-clay flex h-screen w-screen flex-col justify-between overflow-x-clip overflow-y-clip">
+      {/* top bar */}
+      <div className="page-px flex w-full justify-between pt-7">
+        <div className="flex gap-x-10">
+          <p className="p-text font-semibold">Slopscore.ai</p>
+          <Link href={'/'} className="">
+            <p className="p-text font-medium text-black/50 transition-colors duration-200 ease-in-out hover:text-black">
+              Docs
+            </p>
+          </Link>
+          <Link href={'/'} className="">
+            <p className="p-text font-medium text-black/50 transition-colors duration-200 ease-in-out hover:text-black">
+              Own the extension
+            </p>
+          </Link>
+        </div>
+        <p className="p-text opacity-50">#testing_phase</p>
       </div>
-      <div className="flex justify-between gap-x-20">
-        <div className="h-[720px] w-[560px] shrink-0 rounded-xl bg-neutral-950 p-10">
-          <p className="font-mona text-sm text-white">Paste link here</p>
-          <p className="font-mona mt-4 text-sm text-white/50">
-            The link of the video you want to analyse
+
+      {/* content */}
+      <div className="page-px flex h-full justify-between gap-x-20 pt-7 pb-10">
+        <div className="flex w-[560px] shrink-0 flex-col justify-between">
+          <div></div>
+          <div></div>
+
+          {/*  */}
+          <p className="p-text max-w-[400px]">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, architecto ab?
           </p>
 
+          {/*  */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -83,26 +104,46 @@ const RootPage = () => {
                 name="video_link"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-mona mt-20 text-white">Link</FormLabel>
-                    <FormControl className="mt-4 text-white ring-white placeholder:text-white/50">
-                      <Input placeholder="https://youtube.com/..." {...field} />
+                    <FormLabel className="font-pixel text-[32px] max-w-[360px] leading-8 font-medium text-black">
+                      So, which video do you wanna analyse?
+                    </FormLabel>
+                    <FormControl className="focus:ring-arancia border-arancia mt-8 p-text placeholder:p-text h-12 bg-white/80 font-semibold text-black max-w-[440px] placeholder:text-black/50 focus:ring-0">
+                      <Input placeholder="https://youtube.com/..." {...field} autoComplete="off" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="mt-5 cursor-pointer bg-white active:bg-black">
-                Submit
+              <Button type="submit" className="bg-arancia text-white hover:text-arancia border border-arancia hover:bg-white  h-11 w-64 cursor-pointer active:bg-black">
+                <p className="p-text font-semibold ">Become Sherlock Holmes</p>
               </Button>
             </form>
           </Form>
         </div>
 
-        <div className="max-h-[720px] w-full overflow-y-scroll border border-white">
-          <p className="font-mona text-sm text-white">{transcript}</p>
+        <div className="hide-scrollbar h-full w-full overflow-y-scroll border border-white">
+          <p className="font-mona text-sm text-black">{transcript}</p>
         </div>
       </div>
-      <div></div>
+
+      {/* bottom marquee  */}
+      <div className="h-40 overflow-x-clip">
+        <Marquee
+          direction={-1}
+          startTriggerDesktop={0}
+          endTriggerDesktop={0}
+          startTriggerMobile={0}
+          endTriggerMobile={0}
+          speed={0.03}
+        >
+          <div className="ml-[calc(46px+5svw)] flex -translate-x-[50%] translate-y-16 items-center gap-x-[calc(46px+5svw)]">
+            <p className="marquee-text">SLOPSCORE.ai</p>
+            <p className="marquee-text">SLOPSCORE.ai</p>
+            <p className="marquee-text">SLOPSCORE.ai</p>
+            <p className="marquee-text">SLOPSCORE.ai</p>
+          </div>
+        </Marquee>
+      </div>
     </div>
   );
 };

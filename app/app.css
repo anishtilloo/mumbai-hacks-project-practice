@@ -3,7 +3,11 @@
 @theme inline {
   --color-black: #000000;
   --color-white: #ffffff;
-  --font-sans: var(--font-geist-sans);
+  --color-clay: #e8e2d7;
+  --color-arancia: #ff6f07;
+  --color-charcoal: #1d1d1d;
+  --font-mona: var(--font-mona);
+  --font-pixel: var(--font-pixel);
 }
 
 body {
@@ -11,8 +15,30 @@ body {
   padding: 0;
 }
 
+@layer base {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, and Opera */
+  }
+}
+
 @layer utilities {
   .page-px {
     @apply px-10;
+  }
+
+  .p-text {
+    @apply font-mona text-[16px] ;
+  }
+
+  .marquee-text {
+    @apply font-pixel text-[calc(46px+5svw)] leading-0 whitespace-nowrap text-black;
   }
 }
