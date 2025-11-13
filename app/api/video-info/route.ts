@@ -8,8 +8,8 @@ import {
   extractYouTubeID,
   getInnertubeApiKey,
   getPlayerResponse,
-} from '@/lib/utils';
-import { geminiAI } from '@/ai-api/ai-initialise';
+} from '@/lib/transcript-extractor';
+import { geminiAI } from '@/lib/llm/init';
 
 // route function
 export async function POST(req: NextRequest) {
@@ -62,6 +62,10 @@ export async function POST(req: NextRequest) {
       ${fullTranscript}
       ---
       `,
+      config: {
+        systemInstruction: "You are a helpful AI Agent",
+      },
+
     });
 
     // console.log(response.candidates![0].content?.parts![0].text);
