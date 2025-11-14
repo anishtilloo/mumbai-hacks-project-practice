@@ -1,3 +1,6 @@
+export const maxDuration = 150;
+export const dynamic = 'force-dynamic';
+
 // Extract YouTube video ID from URL or return ID if already formatted
 export function extractYouTubeID(urlOrID: string): string | null {
   const regExpID = /^[a-zA-Z0-9_-]{11}$/;
@@ -24,6 +27,7 @@ export function extractYouTubeID(urlOrID: string): string | null {
 
 // Extract caption track URL from player response
 export const extractCaptionTrackUrl = (playerResponse: PlayerResponse, lang = 'en'): string => {
+  console.log('playerResponse?.captions', playerResponse?.captions);
   const tracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
 
   if (!tracks) throw new Error('No caption tracks found.');

@@ -15,4 +15,10 @@ export const aiConfig = {
       apiKey: process.env.GEMINI_API_KEY,
     },
   },
+  google: {
+    factCheck: {
+      baseUrl: process.env.GOOGLE_FACT_CHECK_BASE_URL || 'https://factchecktools.googleapis.com/v1alpha1',
+      apiKey: process.env.GOOGLE_FACT_CHECK_API_KEY,
+    }
+  }
 };

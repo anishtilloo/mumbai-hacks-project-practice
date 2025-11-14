@@ -9,7 +9,10 @@ import {
   getInnertubeApiKey,
   getPlayerResponse,
 } from '@/lib/transcript-extractor';
+
+import { factCheckSearch } from '@/lib/fact-check';
 import { geminiAI } from '@/lib/llm/init';
+import { system_prompt } from '@/prompts/claim-extractor-agent-prompts';
 
 // route function
 export async function POST(req: NextRequest) {
@@ -39,36 +42,46 @@ export async function POST(req: NextRequest) {
 
     // 1. Extract caption track URL
     const captionUrl = extractCaptionTrackUrl(playerResponse);
+    console.log('works 1');
 
     // 2. Fetch XML captions
     const xmlResponse = await fetch(captionUrl);
     const xml = await xmlResponse.text();
+    console.log('works 2');
 
     // 3. Parse XML to extract text
     const parsedXml = await parseStringPromise(xml);
+    console.log('works 3');
 
     // 4. Clean the XML to get pure text
     const allText = parsedXml.transcript.text.map((t: { _: string }) => t._);
     const fullTranscript = (allText as string[]).join(' ');
+    console.log('works 4');
 
-    // Get video metadata
-    const videoDetails = playerResponse?.videoDetails;
-
-    // Get response from LLM
+    // 5. Get response from LLM
     const response = await geminiAI.models.generateContent({
       model: 'gemini-2.0-flash',
-      contents: `Provide a point wise summary of this video transcript -
+      contents: `This is the current transcript for you to analyse -
       ---
       ${fullTranscript}
       ---
       `,
       config: {
-        systemInstruction: "You are a helpful AI Agent",
+        systemInstruction: system_prompt,
       },
-
     });
 
+    console.log('works 5');
+
+    const responseFromFactCheck = await factCheckSearch('covid%20vaccine');
+    console.log('works 6');
+
+    console.log(responseFromFactCheck);
+
     // console.log(response.candidates![0].content?.parts![0].text);
+
+    // Get video metadata
+    const videoDetails = playerResponse?.videoDetails;
 
     return NextResponse.json({
       success: true,
@@ -79,6 +92,7 @@ export async function POST(req: NextRequest) {
         thumbnailUrl: videoDetails?.thumbnail?.thumbnails?.[0]?.url,
         fullTranscript: fullTranscript,
         aiResponse: response.candidates![0].content?.parts![0].text,
+        factCheckResponse: responseFromFactCheck,
       },
     });
   } catch (error) {
