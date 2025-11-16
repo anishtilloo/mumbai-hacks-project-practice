@@ -70,3 +70,35 @@ export const getInnertubeApiKey = async (videoUrl: string): Promise<string | nul
   const apiKeyMatch = html.match(/"INNERTUBE_API_KEY":"([^"]+)"/);
   return apiKeyMatch ? apiKeyMatch[1] : null;
 };
+
+
+export function extractJson(input: string) {
+  // 1. Extract the block inside triple backticks
+  const match = input.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (!match) throw new Error("No fenced JSON block found");
+
+  let raw = match[1].trim();
+
+  // 2. If the block begins with "json {", remove the "json"
+  if (raw.startsWith("json")) {
+    raw = raw.replace(/^json\s*/, "");
+  }
+
+  // 3. Ensure the extracted string starts with "{" and ends with "}"
+  const start = raw.indexOf("{");
+  const end = raw.lastIndexOf("}");
+
+  if (start === -1 || end === -1) {
+    return ("Cleaned block does not contain valid JSON");
+  }
+
+  const jsonString = raw.slice(start, end + 1);
+
+  // 4. Parse JSON safely
+  try {
+    return JSON.parse(jsonString);
+  } catch (err) {
+    return "Invalid JSON: " + err;
+  }
+}
+

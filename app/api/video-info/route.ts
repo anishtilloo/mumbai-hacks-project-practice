@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // local imports
 import {
   extractCaptionTrackUrl,
+  extractJson,
   extractYouTubeID,
   getInnertubeApiKey,
   getPlayerResponse,
@@ -13,6 +14,7 @@ import {
 import { factCheckSearch } from '@/lib/fact-check';
 import { geminiAI } from '@/lib/llm/init';
 import { system_prompt } from '@/prompts/claim-extractor-agent-prompts';
+import { processGetApiInBatchs } from '@/lib/utils';
 
 // route function
 export async function POST(req: NextRequest) {
@@ -73,10 +75,19 @@ export async function POST(req: NextRequest) {
 
     console.log('works 5');
 
-    const responseFromFactCheck = await factCheckSearch('covid%20vaccine');
-    console.log('works 6');
+    // const responseText = response.candidates![0].content?.parts![0].text;
 
-    console.log(responseFromFactCheck);
+    const parsedLlmResponse = JSON.parse(JSON.stringify(response.candidates![0].content?.parts![0].text));
+    console.log('parsedLlmResponse', parsedLlmResponse);
+
+    const extractedJson = extractJson(parsedLlmResponse);
+    // parsedLlmResponse
+    // const responseFromFactCheck = await factCheckSearch('covid vaccine');
+    console.log('works 6', extractedJson?.claims?.content);
+
+    const result = await processGetApiInBatchs(extractedJson?.claims?.content, 5, factCheckSearch)
+
+    console.log('result', result);
 
     // console.log(response.candidates![0].content?.parts![0].text);
 
@@ -91,8 +102,12 @@ export async function POST(req: NextRequest) {
         author: videoDetails?.author || 'Unknown',
         thumbnailUrl: videoDetails?.thumbnail?.thumbnails?.[0]?.url,
         fullTranscript: fullTranscript,
-        aiResponse: response.candidates![0].content?.parts![0].text,
-        factCheckResponse: responseFromFactCheck,
+        extractedAIJson: extractedJson,
+        aiResponse: response,
+        apiBatchRepsponse: result,
+        playerResponse: playerResponse,
+        // aiResponse: response.candidates![0].content?.parts![0].text,
+        // factCheckResponse: responseFromFactCheck,
       },
     });
   } catch (error) {

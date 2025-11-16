@@ -19,6 +19,10 @@ export async function factCheckSearch(
 //   url.searchParams.append("languageCode", languageCode);
 //   url.searchParams.append("pageSize", pageSize.toString());
 
+console.log(`${aiConfig.google.factCheck.baseUrl}/claims:search?query=${query}&languageCode=${languageCode}&pageSize=${pageSize.toString()}`);
+console.log(`${aiConfig.google.factCheck.apiKey}`);
+
+
   const response = await fetch(`${aiConfig.google.factCheck.baseUrl}/claims:search?query=${query}&languageCode=${languageCode}&pageSize=${pageSize.toString()}`, {
     method: "GET",
     headers: {
