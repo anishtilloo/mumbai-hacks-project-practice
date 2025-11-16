@@ -71,7 +71,7 @@ const RootPage = () => {
       <div className="page-px flex w-full justify-between pt-7">
         <div className="flex gap-x-10">
           <p className="p-text font-semibold">Slopscore.ai</p>
-          <Link href={'/'} className="">
+          <Link href={'https://slopscoreaidocs.vercel.app/docs'} target="_blank" className="">
             <p className="p-text font-medium text-black/50 transition-colors duration-200 ease-in-out hover:text-black">
               Docs
             </p>
@@ -104,18 +104,21 @@ const RootPage = () => {
                 name="video_link"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-pixel text-[32px] max-w-[360px] leading-8 font-medium text-black">
+                    <FormLabel className="font-pixel max-w-[360px] text-[32px] leading-8 font-medium text-black">
                       So, which video do you wanna analyse?
                     </FormLabel>
-                    <FormControl className="focus:ring-arancia border-arancia mt-8 p-text placeholder:p-text h-12 bg-white/80 font-semibold text-black max-w-[440px] placeholder:text-black/50 focus:ring-0">
+                    <FormControl className="focus:ring-arancia border-arancia p-text placeholder:p-text mt-8 h-12 max-w-[440px] bg-white/80 font-semibold text-black placeholder:text-black/50 focus:ring-0">
                       <Input placeholder="https://youtube.com/..." {...field} autoComplete="off" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="bg-arancia text-white hover:text-arancia border border-arancia hover:bg-white  h-11 w-64 cursor-pointer active:bg-black">
-                <p className="p-text font-semibold ">Become Sherlock Holmes</p>
+              <Button
+                type="submit"
+                className="bg-arancia hover:text-arancia border-arancia h-11 w-64 cursor-pointer border text-white hover:bg-white active:bg-black"
+              >
+                <p className="p-text font-semibold">Become Sherlock Holmes</p>
               </Button>
             </form>
           </Form>
